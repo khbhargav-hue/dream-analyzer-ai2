@@ -1,0 +1,5 @@
+{
+  "name": "Champion.AI Mobile",
+  "description": "Elite mobile fantasy sports analyzer. Upload screenshots to get AI-optimized lineups and winning strategies.",
+  "requestFramePermissions": ["camera"]
+}

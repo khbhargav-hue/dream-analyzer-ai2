@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required) - Firebase Auth UID
+    //   - email: string (required) - User email
+    //   - displayName: string (optional)
+    //   - photoURL: string (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: predictions
+    // Document ID: auto-generated
+    // Fields:
+    //   - uid: string (required) - Creator's UID
+    //   - matchTitle: string (optional)
+    //   - analysis: string (required)
+    //   - team: list (required) - List of player objects
+    //   - strategy: string (required)
+    //   - imageUrl: string (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
+             data.uid == request.auth.uid &&
+             data.email is string &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidPrediction(data) {
+      return data.keys().hasAll(['uid', 'analysis', 'team', 'strategy', 'createdAt']) &&
+             data.uid == request.auth.uid &&
+             data.analysis is string && data.analysis.size() < 10000 &&
+             data.team is list && data.team.size() == 11 &&
+             data.strategy is string && data.strategy.size() < 2000 &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data);
+    }
+
+    match /predictions/{predictionId} {
+      allow read: if isDocOwner();
+      allow create: if isAuthenticated() && isValidPrediction(request.resource.data);
+      allow delete: if isDocOwner();
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Champion.AI Fantasy Analyzer",
+  "short_name": "Champion.AI",
+  "description": "AI-powered fantasy sports lineup optimizer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020408",
+  "theme_color": "#ff003c",
+  "icons": [
+    {
+      "src": "https://picsum.photos/seed/champion/192/192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://picsum.photos/seed/champion/512/512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+/* No external dependencies as per user request */
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --color-sports-red: #ff003c;
+  --color-sports-blue: #0066ff;
+  --color-sports-gold: #ffcc00;
+  --color-sports-green: #00ff88;
+  --color-role-wk: #ff00ff;
+  --color-role-bat: #00ffff;
+  --color-role-all: #ffff00;
+  --color-role-bowl: #ff8800;
+}
+
+@layer base {
+  body {
+    @apply bg-[#010204] text-gray-100 selection:bg-sports-red/30 overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 50% -20%, rgba(0, 102, 255, 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 20% 20%, rgba(255, 0, 60, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(1, 2, 4, 1) 100%),
+      url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+  }
+}
+
+@layer components {
+  .stadium-light {
+    @apply absolute top-0 w-[1px] h-screen bg-gradient-to-b from-white/40 via-white/5 to-transparent opacity-20 blur-[2px];
+    transform-origin: top;
+  }
+
+  .glass-card {
+    @apply bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.8)];
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-700;
+  }
+  
+  .glass-card:hover {
+    @apply border-white/10 scale-[1.02] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)];
+  }
+  
+  .glass-card:hover::before {
+    @apply opacity-100;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-sports-red via-sports-blue to-sports-green hover:brightness-125 text-white font-black py-6 px-12 rounded-2xl transition-all duration-700 transform hover:scale-[1.05] active:scale-[0.95] shadow-[0_25px_60px_rgba(255,0,60,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-4 overflow-hidden relative uppercase tracking-[0.3em] text-[11px] border border-white/20;
+    background-size: 200% auto;
+    animation: gradientFlow 4s linear infinite;
+  }
+
+  .neon-pulse {
+    animation: neonPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes neonPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+
+  .stat-bar {
+    @apply h-1.5 rounded-full bg-white/5 overflow-hidden relative;
+  }
+
+  .stat-fill {
+    @apply h-full transition-all duration-1000 ease-out;
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-gradient-text {
+    background-size: 300% auto;
+    animation: gradientFlow 5s linear infinite;
+  }
+
+  .upload-zone {
+    @apply border-2 border-dashed border-white/10 rounded-[3.5rem] p-20 bg-white/[0.01] hover:bg-white/[0.04] hover:border-sports-red/50 transition-all duration-700 cursor-pointer flex flex-col items-center justify-center gap-10 text-center group relative overflow-hidden;
+  }
+
+  .player-card {
+    @apply bg-gradient-to-br from-white/[0.05] to-transparent border border-white/10 rounded-[2.5rem] p-8 transition-all duration-700 hover:border-white/40 hover:-translate-y-4 relative overflow-hidden group/card shadow-2xl;
+  }
+
+  .role-wk { border-left: 4px solid var(--color-role-wk); }
+  .role-bat { border-left: 4px solid var(--color-role-bat); }
+  .role-all { border-left: 4px solid var(--color-role-all); }
+  .role-bowl { border-left: 4px solid var(--color-role-bowl); }
+
+  .badge-c {
+    @apply bg-gradient-to-br from-sports-gold via-[#ffaa00] to-[#cc8800] text-black text-[11px] font-black px-4 py-2 rounded-2xl absolute top-5 right-5 shadow-[0_10px_30px_rgba(255,204,0,0.6)] border border-white/40 uppercase tracking-tighter flex items-center gap-2 animate-pulse;
+  }
+
+  .badge-vc {
+    @apply bg-gradient-to-br from-gray-100 via-gray-300 to-gray-500 text-black text-[11px] font-black px-4 py-2 rounded-2xl absolute top-5 right-5 shadow-[0_10px_30px_rgba(255,255,255,0.3)] border border-white/40 uppercase tracking-tighter flex items-center gap-2;
+  }
+
+  .pitch-container {
+    @apply bg-[#050a05] rounded-[5rem] border-4 border-white/5 relative shadow-[0_60px_120px_-20px_rgba(0,0,0,0.9)] overflow-hidden;
+    background-image: 
+      linear-gradient(rgba(0, 255, 136, 0.03) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(0, 255, 136, 0.03) 2px, transparent 2px),
+      radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 70%);
+    background-size: 50px 50px, 50px 50px, 100% 100%;
+  }
+
+  .pitch-glow {
+    @apply absolute w-[600px] h-[600px] bg-sports-green/10 rounded-full blur-[150px] -z-10;
+  }
+
+  .neon-border {
+    @apply relative overflow-hidden;
+  }
+
+  .neon-border::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sports-red to-transparent shadow-[0_0_15px_rgba(255,0,60,0.8)];
+  }
+}
+
+.animate-staggered-fade {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: staggeredFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes staggeredFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.glow-text-red {
+  text-shadow: 0 0 40px rgba(255, 0, 60, 0.6);
+}
+
+.glow-text-blue {
+  text-shadow: 0 0 40px rgba(0, 102, 255, 0.6);
+}
+
+.loading-bar-container {
+  @apply w-full bg-white/5 rounded-full overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)] border border-white/5;
+}
+
+.loading-bar-fill {
+  @apply h-full transition-all duration-700 ease-out shadow-[0_0_30px_rgba(255,0,60,1)];
+  background: linear-gradient(90deg, #ff003c, #0066ff, #00ff88, #ff00ff, #00ffff, #ffff00, #ff8800, #ff003c);
+  background-size: 300% 100%;
+  animation: loadingGradient 3s linear infinite;
+}
+
+@keyframes loadingGradient {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-[#020408];
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full border-4 border-[#020408] hover:bg-sports-red/60 transition-all duration-500;
+}
+
+.sports-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
